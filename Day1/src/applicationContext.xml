@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean name="c" class="com.zhouwei.spring.Category">
+        <property name="name" value="category 1"/>
+        <property name="id" value="1"/>
+    </bean>
+    <bean name="p" class="com.zhouwei.spring.Product">
+        <property name="id" value="110"/>
+        <property name="name" value="product 1"/>
+        <property name="category" ref="c"/>
+    </bean>
+    <bean name="s" class="com.zhouwei.spring.ProductService"></bean>
+    <bean name="loggerAspect" class="com.zhouwei.spring.LoggerAspect"></bean>
+
+    <aop:config>
+        <aop:pointcut id="loggerCutpoint" expression="execution(* com.zhouwei.spring.ProductService.*(..))"/>
+        <aop:aspect id="logAspect" ref="loggerAspect">
+            <aop:around pointcut-ref="loggerCutpoint" method="log"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
